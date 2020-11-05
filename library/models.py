@@ -11,32 +11,45 @@ class Course(models.Model):
     pass
 
 class Chapter(models.Model):
-    """Model Representing a collection of information about similar topics(Chapter)."""
+    """Model Representing a collection of articles about similar topics(Chapter)."""
     pass
 
-class ContentUnit(models.Model):
+class Article(models.Model):
     """Model Representing a collection of information about a topic.
-    Example of ContentUnits include: Article, Blog Post, Video
+    It could be anything from an essay to a video.
     """
-    pass
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
-class Article(ContentUnit):
-    """Information about a topic delivered without user feedback"""
-    pass
+    description = models.TextField()
 
-class Post(ContentUnit):
-    """Information about a topic with user feedback"""
-    pass
+    created = models.DateTimeField(default=timezone.now) #When the article was first created
+    updated = models.DateTimeField(null=True,blank=True) #The most recent edit to the article
+    published = models.DateTimeField(null=True,blank=True) #When the article was made available to the public
+   
+    isPublished = models.BooleanField(default=False)
+    view_count = models.IntegerField(_("View count"), default=0)
 
-class Comment(ContentUnit):
+    #Methods
+    def __str__(self):
+        "String for representing the post"
+        return self.title + " by " + self.author
+
+class Comment(models.Model):
     """Model representing feedback from a User"""
-    post = models.ForeignKey(Post, on_delete=models.CASCADE) 
-    text = models.TextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE) 
+    text = models.TextField(max_length=500)
     timestamp = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
+    #Methods
+    def __str__(self):
+        """String for representing a Comment."""
+        return 'Comment at ' + str(self.timestamp) + ' by '+ str(self.author) + " on " + self.article
+
 class Segment(models.Model):
-    """Model representing a segment of a content unit. Usually deals with a single concept."""
+    """Model representing a segment of an article. Usually deals with a single concept."""
     pass
 
 class Tag(models.Model):
@@ -47,5 +60,5 @@ class Tag(models.Model):
 
     #Methods
     def __str__(self):
-        """String for representing the Model object."""
+        """String for representing a Tag."""
         return self.name
