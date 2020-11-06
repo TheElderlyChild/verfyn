@@ -128,3 +128,7 @@ class Segment(models.Model):
     class Meta:
         ordering = ("position")
 
+    #Methods
+    def __str__(self):
+        """String for representing a Segment."""
+        return self.header
