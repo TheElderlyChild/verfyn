@@ -14,8 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+#Add URLconfs from installed apps using include()
+urlpatterns += [
+    path('catalog/', include('catalog.urls'))
+]
+
+#Handle paths of the 'core website". For example the home page or contact page
+urlpatterns += [
+    #path('', Waiting for a view implementation)
+]
+
