@@ -22,7 +22,7 @@ urlpatterns = [
 
 #Add URLconfs from installed apps using include()
 urlpatterns += [
-    path('catalog/', include('catalog.urls'))
+    path('library/', include('library.urls'))
 ]
 
 #Handle paths of the 'core website". For example the home page or contact page
