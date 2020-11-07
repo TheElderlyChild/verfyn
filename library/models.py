@@ -43,9 +43,8 @@ class Course(models.Model):
 
     @property
     def tableOfContents(self):
-        """Generates the Table Of Contents of the Course"""
-        pass
-
+        """Generates the Table Of Contents html for the Course"""
+        
 class Chapter(models.Model):
     """Model Representing a collection of articles about similar topics(Chapter)."""
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -80,10 +79,10 @@ class Article(models.Model):
    
     viewCount = models.IntegerField(default=0)
 
-    position = models.AutoField()
+    position = models.AutoField(primary_key=True)
 
     class Meta:
-        ordering = ("position")
+        ordering = ["position"]
 
     #Methods
     def __str__(self):
@@ -123,10 +122,10 @@ class Segment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     header = models.CharField(max_length=200)
     content = models.TextField()
-    position = models.AutoField()
+    position = models.AutoField(primary_key=True)
 
     class Meta:
-        ordering = ("position")
+        ordering = ["position"]
 
     #Methods
     def __str__(self):
