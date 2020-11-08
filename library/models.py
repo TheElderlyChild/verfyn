@@ -40,11 +40,12 @@ class Course(models.Model):
 
     def incDislikes(self):
         """Increases the number of dislikes of the course"""
+        self.likes -= 1
 
     @property
     def tableOfContents(self):
         """Generates the Table Of Contents html for the Course"""
-        
+
 class Chapter(models.Model):
     """Model Representing a collection of articles about similar topics(Chapter)."""
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -118,7 +119,6 @@ class Comment(models.Model):
 
 class Segment(models.Model):
     """Model representing a segment of an article. Usually deals with a single concept."""
-    
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     header = models.CharField(max_length=200)
     content = models.TextField()
@@ -131,3 +131,4 @@ class Segment(models.Model):
     def __str__(self):
         """String for representing a Segment."""
         return self.header
+            
